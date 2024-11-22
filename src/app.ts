@@ -1,5 +1,5 @@
-import {RestClientV2} from 'bitget-api';
 import * as http from 'http';
+import {RestClientV2} from "../lib/bitget-api/src";
 
 const PORT: number = 3000;
 
@@ -17,7 +17,18 @@ const client = new RestClientV2({
     apiPass: 'insert_api_pass_here',
 });
 
-client.getP2PTransactionRecords(params)
+function getTimestampString(date: Date): string {
+    return date.getTime().toString();
+}
+
+// Example usage with dates
+const params = {
+    startTime: getTimestampString(new Date('2024-01-01')),
+    endTime: getTimestampString(new Date()),  // Current time
+    limit: 100
+};
+
+client.getSpotTransactionRecords(params)
     .then((response) => {
         console.log(response);
     })
